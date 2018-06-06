@@ -48,6 +48,9 @@ namespace Links
 
             app.UseMvc(routes =>
             {
+                //routes.MapRoute(
+                //   name: "short",
+                //   template: "{controller}/{url}");
                 routes.MapRoute(
                     name: "default",
                     template: "{controller}/{action=Index}/{id?}");
