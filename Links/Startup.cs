@@ -1,10 +1,16 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Builder;
+
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.SpaServices.AngularCli;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.EntityFrameworkCore;
 using Links.Models;
 using Links.Data;
@@ -23,16 +29,35 @@ namespace Links
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            services.AddAuthentication(sharedOptions =>
+            {
+                sharedOptions.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                sharedOptions.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
+            })
+            .AddAzureAd(options => Configuration.Bind("AzureAd", options))
+            .AddCookie();
+
+            services.AddMvc(options =>
+            {
+                //    var policy = new AuthorizationPolicyBuilder()
+                //        .RequireAuthenticatedUser()
+                //        .Build();
+                //    options.Filters.Add(new AuthorizeFilter(policy));
+            })
+            .AddRazorPagesOptions(options =>
+            {
+                options.Conventions.AllowAnonymousToFolder("/Account");
+            })
+            .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
                 configuration.RootPath = "ClientApp/dist";
             });
-
             services.AddDbContext<LinksContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("LinksContext")));
+                   options.UseSqlServer(Configuration.GetConnectionString("LinksContext")));
 
             services.AddTransient<IDataRepository, DataRepository>();
         }
@@ -42,6 +67,7 @@ namespace Links
         {
             if (env.IsDevelopment())
             {
+                //app.UseBrowserLink();
                 app.UseDeveloperExceptionPage();
             }
             else
@@ -49,6 +75,7 @@ namespace Links
                 app.UseExceptionHandler("/Error");
                 app.UseHsts();
             }
+            //app.UseAuthentication();
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();

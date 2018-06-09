@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Links.Controllers
 {
     [Route("api/[controller]")]
+    [Microsoft.AspNetCore.Authorization.Authorize]
     public class SampleDataController : Controller
     {
         private static string[] Summaries = new[]
