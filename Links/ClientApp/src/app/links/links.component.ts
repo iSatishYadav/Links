@@ -24,8 +24,3 @@ export class LinksComponent implements OnInit {
   }
 
 }
-
-//interface Link {
-//  originalLink: string;
-//  shortLink: string;
-//}

@@ -9,13 +9,15 @@
   <thead>
     <tr>
       <th>Short Link</th>
+      <th>Clicks</th>
       <th>Original Link</th>
     </tr>
   </thead>
   <tbody>
     <tr *ngFor="let link of links">
       <td><a href="{{link.shortLink}}">{{link.shortLink}}</a></td>
-      <td><a href="{{link.originalLink}}" rel="nofollow" target="_blank">{{link.originalLink.substring(0, 100)}}</a></td>      
+      <td>{{link.clicks}}</td>
+      <td><a href="{{link.originalLink}}" rel="nofollow" target="_blank">{{link.originalLink.substring(0, 100)}}</a></td>
     </tr>
   </tbody>
 </table>

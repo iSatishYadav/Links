@@ -12,6 +12,6 @@ namespace Links
 
         public string CreatedBy { get; set; }
         public DateTime CreatedOn { get; set; }
-
+        public string Stats { get; set; }
     }
 }

@@ -26,7 +26,10 @@ namespace Links.Controllers
             if (string.IsNullOrEmpty(originalUrl))
                 return NotFound();
             else
+            {
+                //TODO: Log stats before redirecting                
                 return Redirect(originalUrl);
+            }
         }
     }
 }

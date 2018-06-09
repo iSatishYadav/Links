@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Links;
 using Links.Models;
+using Links.Data;
 
 namespace Links.Controllers
 {
@@ -27,17 +28,20 @@ namespace Links.Controllers
         {
             var links = _context.Link
                 .Where(x => x.CreatedBy == "Satish")
+                .OrderByDescending(x=> x.Id)
                 .Select(x => new
                 {
                     OriginalLink = x.OriginalLink,
-                    Id = x.Id
+                    Id = x.Id,
+                    Stats = Stats.FromJson(x.Stats)
                 }).ToList();
 
             return Ok(links.Select(
                 x => new
                 {
                     OriginalLink = x.OriginalLink,
-                    ShortLink = Url.Link("RedirectToLink", new { url = ShortUrl.Encode(x.Id) })
+                    ShortLink = Url.Link("RedirectToLink", new { url = ShortUrl.Encode(x.Id) }),
+                    Clicks = x.Stats?.Clicks
                 }
                 ));
         }
