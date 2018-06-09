@@ -1,0 +1,19 @@
+<div class="container-fluid">
+  <h1> Shorten your links here!</h1>
+<!--  {{diagnostic}}-->
+  <form class="form" #urlForm="ngForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="url"></label>
+      <input type="url" class="form-control" id="url" required placeholder="Enter URL here"
+             [(ngModel)]="model.url" name="url" />
+      <span *ngIf="model.url">Click <i>Shorten</i> to shorten {{model.url}}</span>
+      <span class="text text-success" *ngIf="model.shortUrl">Success!!! Go to <a href="{{model.shortUrl}}" rel="nofollow" target="_blank">{{model.shortUrl}}</a></span>
+    </div>
+    <!--<button type="submit" class="btn btn-success" (click)="newUrl();
+          urlForm.reset()">Shorten</button>-->
+    <button type="submit" class="btn btn-success"
+            [disabled]="!urlForm.form.valid">
+      Shorten
+    </button>
+  </form>
+</div>

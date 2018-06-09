@@ -1,0 +1,21 @@
+<h1>
+  Your links
+</h1>
+<p *ngIf="!links">
+  Please wait while we fetch your previously created links...
+</p>
+
+<table class="table" *ngIf="links">
+  <thead>
+    <tr>
+      <th>Short Link</th>
+      <th>Original Link</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let link of links">
+      <td><a href="{{link.shortLink}}">{{link.shortLink}}</a></td>
+      <td><a href="{{link.originalLink}}" rel="nofollow" target="_blank">{{link.originalLink.substring(0, 100)}}</a></td>      
+    </tr>
+  </tbody>
+</table>
