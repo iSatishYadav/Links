@@ -1,10 +1,13 @@
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.EntityFrameworkCore;
+using Links.Models;
+using Links.Data;
 
 namespace Links
 {
@@ -27,6 +30,11 @@ namespace Links
             {
                 configuration.RootPath = "ClientApp/dist";
             });
+
+            services.AddDbContext<LinksContext>(options =>
+                    options.UseSqlServer(Configuration.GetConnectionString("LinksContext")));
+
+            services.AddTransient<IDataRepository, DataRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
