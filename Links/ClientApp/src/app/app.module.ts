@@ -27,11 +27,12 @@ import { ShortnerComponent } from './shortner/shortner.component';
     HttpClientModule,
     FormsModule,
     RouterModule.forRoot([
-      { path: '', component: HomeComponent, pathMatch: 'full' },
+      //{ path: '', component: HomeComponent, pathMatch: 'full' },
+      { path: '', component: ShortnerComponent, pathMatch: 'full' },
       //{ path: 'counter', component: CounterComponent },
       //{ path: 'fetch-data', component: FetchDataComponent },
       { path: 'links', component: LinksComponent },
-      { path: 'shortner', component: ShortnerComponent },
+      //{ path: 'shortner', component: ShortnerComponent },
     ])
   ],
   providers: [],
