@@ -1,15 +1,15 @@
 import { TestBed, inject } from '@angular/core/testing';
 
-import { LinkServiceService } from './link-service.service';
+import { LinkService } from './link.service';
 
 describe('LinkServiceService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [LinkServiceService]
+      providers: [LinkService]
     });
   });
 
-  it('should be created', inject([LinkServiceService], (service: LinkServiceService) => {
+  it('should be created', inject([LinkService], (service: LinkService) => {
     expect(service).toBeTruthy();
   }));
 });
