@@ -14,6 +14,8 @@ using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.EntityFrameworkCore;
 using Links.Models;
 using Links.Data;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using System;
 
 namespace Links
 {
@@ -32,18 +34,32 @@ namespace Links
 
             services.AddAuthentication(sharedOptions =>
             {
-                sharedOptions.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                sharedOptions.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
+                //sharedOptions.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                //sharedOptions.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
+                sharedOptions.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                sharedOptions.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+
             })
-            .AddAzureAd(options => Configuration.Bind("AzureAd", options))
-            .AddCookie();
+            //.AddAzureAd(options => Configuration.Bind("AzureAd", options))
+            //.AddCookie();
+            .AddJwtBearer(options =>
+            {
+                //tenantId
+                options.Authority = "https://login.microsoftonline.com/222f3a7c-d45e-4818-9aa4-33d44420ec32";
+                //clientId
+                options.Audience = "69283aab-51de-414d-958b-22923a9c22d9";
+                options.TokenValidationParameters.ValidateLifetime = true;
+                options.TokenValidationParameters.ClockSkew = TimeSpan.Zero;
+            });
+
+            services.AddAuthorization();
 
             services.AddMvc(options =>
             {
-                //    var policy = new AuthorizationPolicyBuilder()
-                //        .RequireAuthenticatedUser()
-                //        .Build();
-                //    options.Filters.Add(new AuthorizeFilter(policy));
+                //var policy = new AuthorizationPolicyBuilder()
+                //    .RequireAuthenticatedUser()
+                //    .Build();
+                //options.Filters.Add(new AuthorizeFilter(policy));
             })
             .AddRazorPagesOptions(options =>
             {
@@ -75,7 +91,14 @@ namespace Links
                 app.UseExceptionHandler("/Error");
                 app.UseHsts();
             }
-            //app.UseAuthentication();
+
+            app.UseAuthentication();
+
+            app.UseCors(builder => builder
+            .AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowCredentials()
+            .AllowAnyHeader());
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();

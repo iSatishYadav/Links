@@ -29,11 +29,11 @@ namespace Links.Data
             return link.OriginalLink;
         }
 
-        public string GetShortCodeByOriginalUrl(string originalLink)
+        public string CreateShortCodeFromOriginalUrl(string originalLink, string userName)
         {
             var link = new Link
             {
-                CreatedBy = "Satish",
+                CreatedBy = userName,
                 CreatedOn = DateTime.Now,
                 OriginalLink = originalLink,
                 Stats = Serialize.ToJson(new Stats

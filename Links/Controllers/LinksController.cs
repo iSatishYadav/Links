@@ -8,11 +8,13 @@ using Microsoft.EntityFrameworkCore;
 using Links;
 using Links.Models;
 using Links.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Links.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class LinksController : ControllerBase
     {
         private readonly LinksContext _context;
@@ -27,7 +29,8 @@ namespace Links.Controllers
         public IActionResult Get()
         {
             var links = _context.Link
-                .Where(x => x.CreatedBy == "Satish")
+                //.Where(x => x.CreatedBy == "Satish")
+                .Where(x => x.CreatedBy == User.Identity.Name)
                 .OrderByDescending(x=> x.Id)
                 .Select(x => new
                 {
