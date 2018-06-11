@@ -30,7 +30,7 @@ CREATE TABLE [dbo].[Log]
 	[Id] UNIQUEIDENTIFIER NOT NULL PRIMARY KEY, 
 	[LinkId] INT NOT NULL,
     [IpAddress] NVARCHAR(50) NULL, 
-    [UserAgent] NVARCHAR(10) NULL, 
+    [UserAgent] NVARCHAR(MAX) NULL, 
     [Timestamp] DATETIME2 NULL, 
     [Browser] NVARCHAR(100) NULL, 
     [Os] NVARCHAR(50) NULL, 
