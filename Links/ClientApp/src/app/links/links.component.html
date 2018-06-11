@@ -1,30 +1,54 @@
-<h1>
-  Your links
-</h1>
+<div class="page-header">
+  <h1>
+    My links
+    <small>
+      <a routerLink="/">
+        or create a new one
+      </a>
+    </small>
+  </h1>
+</div>
 <p *ngIf="!links">
   Please wait while we fetch your previously created links...
 </p>
+<ol class="breadcrumb">
+  <li><a routerLink="/">Home</a></li>
+  <li><a routerLink="/links">Links</a></li>
+</ol>
 <!--<div class="panel" *ngIf="selectedLink">
   <div class="panel-body">
     <label>{{selectedLink.clicks}}</label>
   </div>
 </div>-->
+
 <table class="table table-responsive table-hover" *ngIf="links">
+  
+
+  
+
   <thead>
-    <tr> 
+    
+
+    
+
+    <tr>
+      
+
+      
+
       <th>Short Link</th>
       <th>Clicks</th>
       <th>Original Link</th>
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let link of links">      
-    <!--  <td (click)="onSelect(link)"><span class="glyphicon glyphicon-cog"></span> </td>-->
+    <tr *ngFor="let link of links">
+      <!--  <td (click)="onSelect(link)"><span class="glyphicon glyphicon-cog"></span> </td>-->
       <td><a href="{{link.shortLink}}">{{link.shortLink}}</a></td>
       <td>{{link.clicks}}</td>
       <td>
         <!--<a href="{{link.originalLink}}" rel="nofollow" target="_blank">{{link.originalLink.substring(0, 100)}}</a>-->
-        {{link.originalLink.substring(0, 100)}}              
+        {{link.originalLink.substring(0, 100)}}
       </td>
     </tr>
   </tbody>

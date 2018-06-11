@@ -1,26 +1,27 @@
-<div class="container-fluid">
-  <div class="page-header">
-    <h1>
-      Shorten your links here
-      <small>It's free!</small>
-    </h1>
-  </div>
-  <!--  {{diagnostic}}-->
-  <form class="form" #urlForm="ngForm" (ngSubmit)="onSubmit()">
-    <div class="form-group">
-      <label for="url"></label>
-      <input type="url" class="form-control" id="url" required placeholder="Enter URL here"
-             [(ngModel)]="model.url" name="url" />
-      <span *ngIf="model.url">Click <i>Shorten</i> to shorten {{model.url}}</span>
-
-      <div class="alert alert-success" role="alert" *ngIf="model.shortUrl">
-        Success!!! Go to
-        <a class="alert-link" href="{{model.shortUrl}}" rel="nofollow" target="_blank">{{model.shortUrl}}</a>
-      </div>
-    </div>
-    <button type="submit" class="btn btn-success"
-            [disabled]="!urlForm.form.valid">
-      Shorten
-    </button>
-  </form>
+<!--<div class="container-fluid">-->
+<div class="page-header">
+  <h1>
+    Let's shorten a link
+    <small>It's free!</small>
+  </h1>
 </div>
+
+<!--  {{diagnostic}}-->
+<form class="form" #urlForm="ngForm" (ngSubmit)="onSubmit()">
+  <div class="form-group">
+    <label for="url"></label>
+    <input type="url" class="form-control" id="url" required placeholder="Enter URL here"
+           [(ngModel)]="model.url" name="url" />
+    <span *ngIf="model.url">Click <i>Shorten</i> to shorten {{model.url}}</span>
+
+    <div class="alert alert-success" role="alert" *ngIf="model.shortUrl">
+      Success! You short link has been generated, here it is:
+      <a class="alert-link" href="{{model.shortUrl}}" rel="nofollow" target="_blank">{{model.shortUrl}}</a>
+    </div>
+  </div>
+  <button type="submit" class="btn btn-success"
+          [disabled]="!urlForm.form.valid">
+    Shorten
+  </button>  
+</form>
+<!--</div>-->
