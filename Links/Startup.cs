@@ -55,6 +55,8 @@ namespace Links
 
             services.AddAuthorization();
 
+            services.AddDetection();
+
             services.AddMvc(options =>
             {
                 //var policy = new AuthorizationPolicyBuilder()

@@ -54,17 +54,17 @@ namespace Links.Data
             return id;
         }
 
-        public string UpdateAccessStats(int id, string ipAddress, DateTime timestamp, string userAgent)
+        public string UpdateAccessStats(int id, string ipAddress, DateTime timestamp, string userAgent, string browser, string os, string device)
         {
             var idParmeter = new SqlParameter("@Id", id);
             _context.Database.ExecuteSqlCommand(@"EXEC [dbo].[UpdateStats] @Id, @IpAddress, @TimeStamp, @UserAgent, @Browser, @Os, @Device",
-                idParmeter, 
-                new SqlParameter("@IpAddress", ipAddress), 
-                new SqlParameter("@TimeStamp", timestamp), 
-                new SqlParameter("@UserAgent", userAgent), 
-                new SqlParameter("@Browser", ""), 
-                new SqlParameter("@Os", ""), 
-                new SqlParameter("@Device", ""));
+                idParmeter,
+                new SqlParameter("@IpAddress", ipAddress),
+                new SqlParameter("@TimeStamp", timestamp),
+                new SqlParameter("@UserAgent", userAgent),
+                new SqlParameter("@Browser", browser),
+                new SqlParameter("@Os", os),
+                new SqlParameter("@Device", device));
             return null;
         }
     }
