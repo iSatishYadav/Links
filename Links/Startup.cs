@@ -55,15 +55,7 @@ namespace Links
 
             services.AddAuthorization();
 
-            services.AddDetection();
-
-            services.AddMvc(options =>
-            {
-                //var policy = new AuthorizationPolicyBuilder()
-                //    .RequireAuthenticatedUser()
-                //    .Build();
-                //options.Filters.Add(new AuthorizeFilter(policy));
-            })
+            services.AddMvc()
             .AddRazorPagesOptions(options =>
             {
                 options.Conventions.AllowAnonymousToFolder("/Account");
@@ -80,7 +72,7 @@ namespace Links
 
             services.AddTransient<IDataRepository, DataRepository>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-    }
+        }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
