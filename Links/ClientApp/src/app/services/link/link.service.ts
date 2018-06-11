@@ -20,13 +20,11 @@ export class LinkService {
     this._baseUrl = baseUrl;
     this._adal.acquireToken('https"//graph.microsoft.com')
       .subscribe((resToken: string) => {
-        this._token = resToken;
-        //console.log("Token: ", resToken);
+        this._token = resToken;        
       });
   }
 
   getLinks() {
-    console.log("Getting links...");
     const httpOpions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -34,11 +32,7 @@ export class LinkService {
         'Authorization': 'Bearer ' + this._token
       })
     };    
-    return this._httpClient.get<Link[]>(this._baseUrl + 'api/Links', httpOpions);
-    //.subscribe(result => {
-    //  this.links = result;
-    //  console.log("links", result);
-    //}, error => console.error(error));
+    return this._httpClient.get<Link[]>(this._baseUrl + 'api/Links', httpOpions);    
   }
 
   postUrlForShortening(url: string) {

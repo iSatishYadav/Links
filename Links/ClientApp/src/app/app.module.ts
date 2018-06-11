@@ -12,7 +12,6 @@ import { CounterComponent } from './counter/counter.component';
 import { LinksComponent } from './links/links.component';
 import { ShortnerComponent } from './shortner/shortner.component';
 
-import { AuthService } from './services/auth/auth.service';
 
 @NgModule({
   declarations: [

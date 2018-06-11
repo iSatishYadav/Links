@@ -1,7 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { Link } from '../models/link';
 import { LinkService } from '../services/link/link.service';
-import { AuthService } from '../services/auth/auth.service';
 
 @Component({
   selector: 'app-links',
@@ -13,22 +12,21 @@ export class LinksComponent implements OnInit {
   public links: Link[];
   private _linkService: LinkService;
   private _userName: string = null;
+  selectedLink: Link;
 
-  constructor(linkService: LinkService, private _authService: AuthService) {
+  constructor(linkService: LinkService) {
     this._linkService = linkService;
     linkService.getLinks()
       .subscribe(result => {
-        this.links = result;
-        console.log("links", result);
+        this.links = result;        
       }, error => console.error(error));
   }
 
-  ngOnInit() {
-    this._userName = this._authService.getName();
-    console.log(this._userName);
+  onSelect(link: Link): void {
+    this.selectedLink = link;    
   }
 
-  public signOut(): void {
-    //this._authService.signOut();    
+  ngOnInit() {
+    //this._userName = this._authService.getName();    
   }
 }

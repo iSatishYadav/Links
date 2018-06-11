@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Links;
 
-namespace Links.Models
+namespace Links.Data
 {
     public class LinksContext : DbContext
     {
@@ -15,5 +15,6 @@ namespace Links.Models
         }
 
         public DbSet<Link> Link { get; set; }
+        //public DbSet<Log> Log { get; set; }
     }
 }
