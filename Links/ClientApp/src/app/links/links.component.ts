@@ -26,6 +26,9 @@ export class LinksComponent implements OnInit {
     this.selectedLink = link;    
   }
 
+  shortLinkClicked(link: Link): void {
+    link.clicks++;
+  }
   ngOnInit() {
     //this._userName = this._authService.getName();    
   }

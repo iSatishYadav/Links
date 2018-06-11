@@ -22,20 +22,8 @@
 </div>-->
 
 <table class="table table-responsive table-hover" *ngIf="links">
-  
-
-  
-
   <thead>
-    
-
-    
-
     <tr>
-      
-
-      
-
       <th>Short Link</th>
       <th>Clicks</th>
       <th>Original Link</th>
@@ -44,7 +32,7 @@
   <tbody>
     <tr *ngFor="let link of links">
       <!--  <td (click)="onSelect(link)"><span class="glyphicon glyphicon-cog"></span> </td>-->
-      <td><a href="{{link.shortLink}}">{{link.shortLink}}</a></td>
+      <td><a href="{{link.shortLink}}" target="_blank" (click)="shortLinkClicked(link)" >{{link.shortLink}}</a></td>
       <td>{{link.clicks}}</td>
       <td>
         <!--<a href="{{link.originalLink}}" rel="nofollow" target="_blank">{{link.originalLink.substring(0, 100)}}</a>-->
