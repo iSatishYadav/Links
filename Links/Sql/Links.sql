@@ -20,3 +20,10 @@ CREATE TABLE [dbo].[Link] (
 );
 
 GO
+
+CREATE PROCEDURE [dbo].[UpdateStats] @Id int, @IpAddress NVARCHAR(50), @TimeStamp DATETIME2, @UserAgent NVARCHAR(MAX)
+AS			
+	UPDATE [dbo].Link SET Stats = JSON_MODIFY(JSON_MODIFY(Stats, '$.clicks', JSON_VALUE(Stats, '$.clicks') + 1), 'append $.log', JSON_MODIFY(JSON_MODIFY(JSON_MODIFY(JSON_MODIFY('{}', '$.id', CAST(NEWID() AS NVARCHAR(64))), '$.timestamp', CAST(@Timestamp AS NVARCHAR)), '$.ip', @IpAddress), '$.userAgent', @UserAgent)) WHERE Id = @Id
+RETURN 0
+
+GO

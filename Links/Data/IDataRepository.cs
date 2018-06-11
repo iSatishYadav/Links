@@ -7,8 +7,8 @@ namespace Links.Data
 {
     public interface IDataRepository
     {
-        string CreateShortCodeFromOriginalUrl(string originalLink, string userName);
-        string GetOriginalLinkByShortCode(string shortLink);    
-        string UpdateAccessStats(int id);
+        int SaveLink(string originalLink, string userName);
+        string GetLink(int shortLink);    
+        string UpdateAccessStats(int id, string ipAddress, DateTime timestamp, string userAgent);
     }
 }

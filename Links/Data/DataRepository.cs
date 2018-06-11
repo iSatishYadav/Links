@@ -17,19 +17,17 @@ namespace Links.Data
             _context = linksContext;
         }
 
-        public string GetOriginalLinkByShortCode(string shortCode)
+        public string GetLink(int id)
         {
-            int id = ShortUrl.Decode(shortCode);
             var link = _context.Link.Find(id);
             if (link == null)
             {
                 return null;
             }
-            UpdateAccessStats(id);
             return link.OriginalLink;
         }
 
-        public string CreateShortCodeFromOriginalUrl(string originalLink, string userName)
+        public int SaveLink(string originalLink, string userName)
         {
             var link = new Link
             {
@@ -44,7 +42,6 @@ namespace Links.Data
                         new Log
                         {
                             Id = Guid.NewGuid(),
-                            //TODO: Get IP
                             Ip = "",
                             Timestamp = DateTime.Now
                         }
@@ -54,14 +51,14 @@ namespace Links.Data
             _context.Link.Add(link);
             _context.SaveChanges();
             int id = link.Id;
-            string shortCode = ShortUrl.Encode(id);
-            return shortCode;
+            return id;
         }
 
-        public string UpdateAccessStats(int id)
+        public string UpdateAccessStats(int id, string ipAddress, DateTime timestamp, string userAgent)
         {
             var idParmeter = new SqlParameter("@Id", id);
-            _context.Database.ExecuteSqlCommand(@"UPDATE [dbo].Link SET Stats = JSON_MODIFY(Stats, '$.clicks', JSON_VALUE(Stats, '$.clicks') + 1) WHERE Id = @Id", idParmeter);
+            _context.Database.ExecuteSqlCommand(@"EXEC [dbo].[UpdateStats] @Id, @IpAddress, @TimeStamp, @UserAgent",
+                idParmeter, new SqlParameter("@IpAddress", ipAddress), new SqlParameter("@TimeStamp", timestamp), new SqlParameter("@UserAgent", userAgent));
             return null;
         }
     }

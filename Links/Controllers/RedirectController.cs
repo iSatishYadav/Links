@@ -15,21 +15,29 @@ namespace Links.Controllers
     public class RedirectController : ControllerBase
     {
         private readonly IDataRepository _dataRepository;
-        public RedirectController(IDataRepository dataRepository)
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        public RedirectController(IDataRepository dataRepository, IHttpContextAccessor httpContextAccessor)
         {
             _dataRepository = dataRepository;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         [Route("{url}", Name = "RedirectToLink")]
         public IActionResult Get(string url)
         {
-            //string originalUrl = GetOriginalUrlFromShortenedUrl(url);
-            string originalUrl = _dataRepository.GetOriginalLinkByShortCode(url);
+            int id = ShortUrl.Decode(url);
+            string originalUrl = _dataRepository.GetLink(id);
             if (string.IsNullOrEmpty(originalUrl))
                 return NotFound();
             else
             {
-                //TODO: Log stats before redirecting                
+                //TODO: Log stats before redirecting                     
+                string ipAddress = _httpContextAccessor.HttpContext.Connection.RemoteIpAddress.ToString();
+                ipAddress = ipAddress == "::1" ? _httpContextAccessor.HttpContext.Connection.LocalIpAddress.ToString() : ipAddress;
+                string userAgent = _httpContextAccessor.HttpContext.Request.Headers["User-Agent"];
+                //TODO: Get IP address, user agent, browser, OS etc.
+                _dataRepository.UpdateAccessStats(id, ipAddress, DateTime.UtcNow, userAgent);
+                originalUrl = !originalUrl.ToUpper().StartsWith("HTTP") ? $"http://{originalUrl}" : originalUrl;
                 return Redirect(originalUrl);
             }
         }

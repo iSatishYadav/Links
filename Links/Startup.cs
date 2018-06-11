@@ -16,6 +16,7 @@ using Links.Models;
 using Links.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System;
+using Microsoft.AspNetCore.Http;
 
 namespace Links
 {
@@ -76,7 +77,8 @@ namespace Links
                    options.UseSqlServer(Configuration.GetConnectionString("LinksContext")));
 
             services.AddTransient<IDataRepository, DataRepository>();
-        }
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+    }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)

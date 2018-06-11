@@ -26,7 +26,7 @@ namespace Links.Controllers
         public IActionResult Post([FromBody] LongUrl longUrl)
         {
             //string shortCode = GetShortCodeForUrl(longUrl?.Url);
-            string shortCode = _dataRepository.CreateShortCodeFromOriginalUrl(longUrl?.Url, User?.Identity?.Name);
+            string shortCode = ShortUrl.Encode(_dataRepository.SaveLink(longUrl?.Url, User?.Identity?.Name));            
             var shortenedUrl = Url.Link("RedirectToLink", new { url = shortCode });
             return Created(shortenedUrl, shortenedUrl);
         }
