@@ -42,7 +42,7 @@ GO
 ALTER TABLE [dbo].[Log] ADD CONSTRAINT FK_Log_Link FOREIGN KEY (LinkId) REFERENCES dbo.Link(Id);
 GO
 
-CREATE PROCEDURE [dbo].[UpdateStats] @Id int, @IpAddress NVARCHAR(50), @TimeStamp DATETIME2, @UserAgent NVARCHAR(MAX)
+CREATE PROCEDURE [dbo].[UpdateStats] @Id int, @IpAddress NVARCHAR(50), @TimeStamp DATETIME2, @UserAgent NVARCHAR(MAX), @Browser NVARCHAR(100), @Os NVARCHAR(50), @Device NVARCHAR(100)
 AS			
 	UPDATE [dbo].Link SET Stats = JSON_MODIFY(JSON_MODIFY(Stats, '$.clicks', JSON_VALUE(Stats, '$.clicks') + 1), 'append $.log', JSON_MODIFY(JSON_MODIFY(JSON_MODIFY(JSON_MODIFY(JSON_MODIFY(JSON_MODIFY(JSON_MODIFY('{}', '$.id', CAST(NEWID() AS NVARCHAR(64))), '$.timestamp', CAST(@Timestamp AS NVARCHAR)), '$.ip', @IpAddress), '$.userAgent', @UserAgent), '$.browser', @Browser), '$.os', @Os), '$.device', @Device)) WHERE Id = @Id
 	INSERT INTO [dbo].[Log] ([Id], [LinkId], [IpAddress], [UserAgent], [Timestamp], [Browser], [Os], [Device]) VALUES (NEWID(), @Id, @IpAddress, @UserAgent, @TimeStamp, @Browser, @Os, @Device)
