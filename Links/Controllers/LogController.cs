@@ -11,7 +11,7 @@ namespace Links.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize]
+    [Authorize]
     public class LogController : ControllerBase
     {
         private readonly IDataRepository _dataRepository;

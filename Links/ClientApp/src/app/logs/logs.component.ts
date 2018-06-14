@@ -22,8 +22,7 @@ export class LogsComponent implements OnInit {
     const id = +this.route.snapshot.paramMap.get('id');
     this._logService.getLogs(id)
       .subscribe(logResult => {
-        this.logs = logResult;
-        console.log(logResult);
+        this.logs = logResult;        
       }, error => console.error(error));
   }
 
