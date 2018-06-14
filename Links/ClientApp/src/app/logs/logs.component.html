@@ -1,0 +1,24 @@
+<table class="table table-responsive table-hover" *ngIf="logs">
+    <thead>
+        <tr>
+
+            <th> IP </th>
+            <!--<th> User Agent </th>-->
+            <th> Timestamp </th>
+            <th> Browser </th>
+            <th> OS </th>
+            <th> Device </th>
+
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let log of logs">
+            <td>{{log.ipAddress}}</td>
+            <!--<td>{{log.userAgent}}</td>-->
+            <td>{{log.timestamp | date}}</td>
+            <td>{{log.browser}}</td>
+            <td>{{log.os}}</td>
+            <td>{{log.device}}</td>
+        </tr>
+    </tbody>
+</table>

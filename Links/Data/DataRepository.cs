@@ -36,16 +36,7 @@ namespace Links.Data
                 OriginalLink = originalLink,
                 Stats = Serialize.ToJson(new Stats
                 {
-                    Clicks = 0,
-                    Log = new Log[]
-                    {
-                        new Log
-                        {
-                            Id = Guid.NewGuid(),
-                            Ip = "",
-                            Timestamp = DateTime.Now
-                        }
-                    }
+                    Clicks = 0
                 })
             };
             _context.Link.Add(link);
@@ -66,6 +57,11 @@ namespace Links.Data
                 new SqlParameter("@Os", os),
                 new SqlParameter("@Device", device));
             return null;
+        }
+
+        public Log[] GetLogsByLinkId(int linkId, string userName)
+        {
+            return _context.Log.Where(x => x.Link.Id == linkId && x.Link.CreatedBy.ToUpper().Equals(userName.ToUpper())).ToArray();
         }
     }
 }

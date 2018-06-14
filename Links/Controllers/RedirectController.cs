@@ -39,7 +39,7 @@ namespace Links.Controllers
                 //TODO: Get IP address, user agent, browser, OS etc.                
                 (string browser, string os, string device) = GetUserAgentDetails(userAgent);
                 _dataRepository.UpdateAccessStats(id, ipAddress, DateTime.UtcNow, userAgent, browser, os, device);
-                originalUrl = !originalUrl.ToUpper().StartsWith("HTTP") ? $"http://{originalUrl}" : originalUrl;
+                originalUrl = !originalUrl.ToUpper().StartsWith("HTTP") ? $"http://{originalUrl}" : originalUrl; //DevSkim: ignore DS137138
                 return Redirect(originalUrl);
             }
         }

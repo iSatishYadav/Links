@@ -11,6 +11,7 @@ import { HomeComponent } from './home/home.component';
 import { CounterComponent } from './counter/counter.component';
 import { LinksComponent } from './links/links.component';
 import { ShortnerComponent } from './shortner/shortner.component';
+import { LogsComponent } from './logs/logs.component';
 
 
 @NgModule({
@@ -20,7 +21,8 @@ import { ShortnerComponent } from './shortner/shortner.component';
     HomeComponent,
     CounterComponent, 
     LinksComponent,
-    ShortnerComponent
+    ShortnerComponent,
+    LogsComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -29,6 +31,7 @@ import { ShortnerComponent } from './shortner/shortner.component';
     RouterModule.forRoot([      
       { path: '', component: ShortnerComponent, pathMatch: 'full', canActivate: [AuthenticationGuard] },      
       { path: 'links', component: LinksComponent, canActivate: [AuthenticationGuard] },
+      { path: 'log/:id', component: LogsComponent, canActivate: [AuthenticationGuard] }
       // { path: 'shortner', component: ShortnerComponent }, 
     ]),
     MsAdalAngular6Module.forRoot({

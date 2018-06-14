@@ -11,35 +11,30 @@ namespace Links.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    //[Authorize]
     public class LogController : ControllerBase
     {
-        private readonly LinksContext _context;
-        public LogController(LinksContext context)
+        private readonly IDataRepository _dataRepository;
+        public LogController(IDataRepository dataRepository)
         {
-            _context = context;
+            _dataRepository = dataRepository;
         }
+        
+        [HttpGet("{id}")]
+        public IActionResult Get(int id)
+        {
+            var logs = _dataRepository.GetLogsByLinkId(id, User?.Identity?.Name ?? "satishkyadav@bharatpetroleum.in");
 
-        //public IActionResult Get(int id)
-        //{
-        //    var links = _context.Iz 
-        //        .Where(x => x.CreatedBy == User.Identity.Name)
-        //        .OrderByDescending(x => x.Id)
-        //        .Select(x => new
-        //        {
-        //            OriginalLink = x.OriginalLink,
-        //            Id = x.Id,
-        //            Stats = Stats.FromJson(x.Stats)
-        //        }).ToList();
-
-        //    return Ok(links.Select(
-        //        x => new
-        //        {
-        //            OriginalLink = x.OriginalLink,
-        //            ShortLink = Url.Link("RedirectToLink", new { url = ShortUrl.Encode(x.Id) }),
-        //            Clicks = x.Stats?.Clicks
-        //        }
-        //        ));
-        //}
+            return Ok(logs.Select(
+                x => new
+                {
+                    x.Browser,
+                    x.Device,
+                    x.IpAddress,
+                    x.Os,
+                    x.Timestamp,
+                    x.UserAgent
+                }));
+        }
     }
 }

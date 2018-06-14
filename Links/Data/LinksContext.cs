@@ -1,20 +1,52 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Links;
+using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace Links.Data
 {
-    public class LinksContext : DbContext
+    public partial class LinksContext : DbContext
     {
-        public LinksContext (DbContextOptions<LinksContext> options)
+        public LinksContext()
+        {
+        }
+
+        public LinksContext(DbContextOptions<LinksContext> options)
             : base(options)
         {
         }
 
-        public DbSet<Link> Link { get; set; }
-        //public DbSet<Log> Log { get; set; }
+        public virtual DbSet<Link> Link { get; set; }
+        public virtual DbSet<Log> Log { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Link>(entity =>
+            {
+                entity.Property(e => e.CreatedBy)
+                    .IsRequired()
+                    .HasMaxLength(200);
+
+                entity.Property(e => e.OriginalLink).IsRequired();
+            });
+
+            modelBuilder.Entity<Log>(entity =>
+            {
+                entity.Property(e => e.Id).ValueGeneratedNever();
+
+                entity.Property(e => e.Browser).HasMaxLength(100);
+
+                entity.Property(e => e.Device).HasMaxLength(100);
+
+                entity.Property(e => e.IpAddress).HasMaxLength(50);
+
+                entity.Property(e => e.Os).HasMaxLength(50);
+
+                entity.HasOne(d => d.Link)
+                    .WithMany(p => p.Log)
+                    .HasForeignKey(d => d.LinkId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Log_Link");
+            });
+        }
     }
 }
