@@ -15,7 +15,9 @@
   <li><a routerLink="/">Home</a></li>
   <li><a routerLink="/links">Links</a></li>
 </ol>
-<table class="table table-responsive table-hover" *ngIf="logs">
+
+<div class="table-responsive">
+<table class="table table-hover" *ngIf="logs">
     <thead>
         <tr>
             <th> IP </th>
@@ -38,3 +40,4 @@
         </tr>
     </tbody>
 </table>
+</div>
