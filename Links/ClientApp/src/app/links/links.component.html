@@ -16,7 +16,8 @@
   <li><a routerLink="/links">Links</a></li>
 </ol>
 
-<table class="table table-responsive table-hover" *ngIf="links">
+<div class="table-responsive">
+<table class="table table-hover" *ngIf="links">
   <thead>
     <tr>
       <th>Short Link</th>
@@ -33,3 +34,4 @@
     </tr>
   </tbody>
 </table>
+</div>
