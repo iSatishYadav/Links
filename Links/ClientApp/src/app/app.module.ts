@@ -12,6 +12,9 @@ import { CounterComponent } from './counter/counter.component';
 import { LinksComponent } from './links/links.component';
 import { ShortnerComponent } from './shortner/shortner.component';
 import { LogsComponent } from './logs/logs.component';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
+import { CreditsComponent } from './credits/credits.component';
 
 
 @NgModule({
@@ -22,7 +25,8 @@ import { LogsComponent } from './logs/logs.component';
     CounterComponent, 
     LinksComponent,
     ShortnerComponent,
-    LogsComponent
+    LogsComponent,
+    CreditsComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -31,6 +35,7 @@ import { LogsComponent } from './logs/logs.component';
     RouterModule.forRoot([      
       { path: '', component: ShortnerComponent, pathMatch: 'full', canActivate: [AuthenticationGuard] },      
       { path: 'links', component: LinksComponent, canActivate: [AuthenticationGuard] },
+      { path: 'credits', component: CreditsComponent, canActivate: [AuthenticationGuard] },
       { path: 'log/:id', component: LogsComponent, canActivate: [AuthenticationGuard] }
       // { path: 'shortner', component: ShortnerComponent }, 
     ]),
@@ -40,7 +45,8 @@ import { LogsComponent } from './logs/logs.component';
       redirectUri: window.location.origin,
       navigateToLoginRequestUrl: false,
       cacheLocation: 'localStorage'
-    })
+    }),
+    ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [AuthenticationGuard],
   bootstrap: [AppComponent]
