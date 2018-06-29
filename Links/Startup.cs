@@ -46,11 +46,13 @@ namespace Links
             .AddJwtBearer(options =>
             {
                 //tenantId
-                options.Authority = "https://login.microsoftonline.com/222f3a7c-d45e-4818-9aa4-33d44420ec32";
-                //clientId
-                //
+                //options.Authority = "https://login.microsoftonline.com/222f3a7c-d45e-4818-9aa4-33d44420ec32";
+                options.Authority = $"{Configuration["AzureAd:Instance"]}/{Configuration["AzureAd:TenantId"]}";
+                //clientId Azure Pers
                 //options.Audience = "69283aab-51de-414d-958b-22923a9c22d9";
-                options.Audience = "1023a461-77c7-4996-91e4-274400561485";
+                // Azure Corp Converged
+                //options.Audience = "1023a461-77c7-4996-91e4-274400561485";
+                options.Audience = Configuration["AzureAd:ClientId"];
                 options.TokenValidationParameters.ValidateLifetime = true;
                 options.TokenValidationParameters.ClockSkew = TimeSpan.Zero;
             });
@@ -104,9 +106,9 @@ namespace Links
 
             app.UseMvc(routes =>
             {
-                //routes.MapRoute(
-                //   name: "short",
-                //   template: "{controller}/{url}");
+                routes.MapRoute(
+                   name: "RedirectToLink",
+                   template: "r/{url}");
                 routes.MapRoute(
                     name: "default",
                     template: "{controller}/{action=Index}/{id?}");
