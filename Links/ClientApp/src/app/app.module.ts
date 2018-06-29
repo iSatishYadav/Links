@@ -41,7 +41,8 @@ import { CreditsComponent } from './credits/credits.component';
     ]),
     MsAdalAngular6Module.forRoot({
       tenant: '222f3a7c-d45e-4818-9aa4-33d44420ec32',
-      clientId: '69283aab-51de-414d-958b-22923a9c22d9',
+      //clientId: '69283aab-51de-414d-958b-22923a9c22d9',
+      clientId: '1023a461-77c7-4996-91e4-274400561485',
       redirectUri: window.location.origin,
       navigateToLoginRequestUrl: false,
       cacheLocation: 'localStorage'
