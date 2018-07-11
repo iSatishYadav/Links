@@ -1,3 +1,10 @@
+language: csharp
+solution: Links.sln
+mono: none
+dotnet: 2.1.2
+script:
+ - dotnet restore
+ - dotnet build
 deploy:
   provider: azure_web_apps
   site: ishort
