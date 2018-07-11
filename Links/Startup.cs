@@ -106,9 +106,9 @@ namespace Links
 
             app.UseMvc(routes =>
             {
-                routes.MapRoute(
-                   name: "RedirectToLink",
-                   template: "r/{url}");
+                //routes.MapRoute(
+                //   name: "RedirectToLink",
+                //   template: "r/{url}");
                 routes.MapRoute(
                     name: "default",
                     template: "{controller}/{action=Index}/{id?}");

@@ -13,23 +13,34 @@ export class LinksComponent implements OnInit {
   private _linkService: LinkService;
   private _userName: string = null;
   selectedLink: Link;
+  public linkWiseCountLabels: string[];
+  public linkWiseCounts: number[];
 
   constructor(linkService: LinkService) {
     this._linkService = linkService;
-    linkService.getLinks()
-      .subscribe(result => {
-        this.links = result;        
-      }, error => console.error(error));
+    //linkService.getLinks()
+    //  .subscribe(result => {
+    //    this.links = result;
+    //    this.linkWiseCountLabels = this.links.map(x => x.originalLink);        
+    //    this.linkWiseCounts = this.links.map(x => x.clicks || 0);       
+    //  }, error => console.error(error));
   }
 
   onSelect(link: Link): void {
-    this.selectedLink = link;    
+    this.selectedLink = link;
   }
 
   shortLinkClicked(link: Link): void {
     link.clicks++;
   }
   ngOnInit() {
-    //this._userName = this._authService.getName();    
+    //this._userName = this._authService.getName();
+    this._linkService.getLinks()
+      .subscribe(result => {
+        this.links = result;
+        let linksForGraph = this.links.sort((x, y) => y.clicks - x.clicks).slice(0, 5);
+        this.linkWiseCountLabels = linksForGraph.map(x => x.originalLink);
+        this.linkWiseCounts = linksForGraph.map(x => x.clicks || 0);
+      }, error => console.error(error));
   }
 }

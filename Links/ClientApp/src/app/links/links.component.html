@@ -15,23 +15,32 @@
   <li><a routerLink="/">Home</a></li>
   <li><a routerLink="/links">Links</a></li>
 </ol>
+<div class="row" *ngIf="linkWiseCountLabels && linkWiseCounts">
+  <h3 class="text-center">Top 5 links' performance</h3>
+  <app-pie-chart [chartLabels]='linkWiseCountLabels'
+                 [chartData]='linkWiseCounts'>
 
-<div class="table-responsive">
-<table class="table table-hover" *ngIf="links">
-  <thead>
-    <tr>
-      <th>Short Link</th>
-      <th>Clicks</th>
-      <th>Original Link</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let link of links">
-      <!--  <td (click)="onSelect(link)"><span class="glyphicon glyphicon-cog"></span> </td>-->
-      <td><a href="{{link.shortLink}}" target="_blank" (click)="shortLinkClicked(link)">{{link.shortLink}}</a></td>
-      <td><a routerLink="/log/{{link.id}}">{{link.clicks}}</a></td>
-      <td>{{link.originalLink.substring(0, 100)}}</td>
-    </tr>
-  </tbody>
-</table>
+  </app-pie-chart>
+</div>
+<div class="row">
+
+  <div class="table-responsive">
+    <table class="table table-hover" *ngIf="links">
+      <thead>
+        <tr>
+          <th>Short Link</th>
+          <th>Clicks</th>
+          <th>Original Link</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let link of links">
+          <!--  <td (click)="onSelect(link)"><span class="glyphicon glyphicon-cog"></span> </td>-->
+          <td><a href="{{link.shortLink}}" target="_blank" (click)="shortLinkClicked(link)">{{link.shortLink}}</a></td>
+          <td><a routerLink="/log/{{link.id}}">{{link.clicks}}</a></td>
+          <td>{{link.originalLink.substring(0, 100)}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>

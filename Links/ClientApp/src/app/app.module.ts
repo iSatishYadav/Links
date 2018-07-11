@@ -16,28 +16,48 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { CreditsComponent } from './credits/credits.component';
 
+import { ChartsModule } from 'ng2-charts';
+import { PieChartComponent } from './charts/pie-chart/pie-chart.component';
+
 
 @NgModule({
   declarations: [
     AppComponent,
     NavMenuComponent,
     HomeComponent,
-    CounterComponent, 
+    CounterComponent,
     LinksComponent,
     ShortnerComponent,
     LogsComponent,
-    CreditsComponent
+    CreditsComponent,
+    PieChartComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
     FormsModule,
-    RouterModule.forRoot([      
-      { path: '', component: ShortnerComponent, pathMatch: 'full', canActivate: [AuthenticationGuard] },      
-      { path: 'links', component: LinksComponent, canActivate: [AuthenticationGuard] },
-      { path: 'credits', component: CreditsComponent, canActivate: [AuthenticationGuard] },
-      { path: 'log/:id', component: LogsComponent, canActivate: [AuthenticationGuard] }
-      // { path: 'shortner', component: ShortnerComponent }, 
+    RouterModule.forRoot([
+      {
+        path: '', component: ShortnerComponent, pathMatch: 'full',
+        canActivate: [AuthenticationGuard]
+      },
+      {
+        path: 'links', component: LinksComponent,
+        canActivate: [AuthenticationGuard]
+      },
+      {
+        path: 'credits', component: CreditsComponent,
+        canActivate: [AuthenticationGuard]
+      },
+      {
+        path: 'log/:id', component: LogsComponent,
+        canActivate: [AuthenticationGuard]
+      }
+      //,
+      //{
+      //  path: 'pie', component: PieChartComponent,
+      //  //canActivate: [AuthenticationGuard]
+      //}
     ]),
     MsAdalAngular6Module.forRoot({
       tenant: '222f3a7c-d45e-4818-9aa4-33d44420ec32',
@@ -47,7 +67,8 @@ import { CreditsComponent } from './credits/credits.component';
       navigateToLoginRequestUrl: false,
       cacheLocation: 'localStorage'
     }),
-    ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production })
+    ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production }),
+    ChartsModule
   ],
   providers: [AuthenticationGuard],
   bootstrap: [AppComponent]
