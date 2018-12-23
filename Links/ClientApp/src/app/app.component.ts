@@ -1,6 +1,4 @@
 import { Component } from '@angular/core';
-import { MsAdalAngular6Service } from 'microsoft-adal-angular6';
-
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -8,9 +6,5 @@ import { MsAdalAngular6Service } from 'microsoft-adal-angular6';
 })
 export class AppComponent {
   title = 'app';
-  constructor(private _adal: MsAdalAngular6Service) {    
-    var token = this._adal.acquireToken('https"//graph.microsoft.com')
-      .subscribe((token: string) => {        
-      });
-  }
+  constructor() { }
 }

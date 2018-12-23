@@ -15,11 +15,28 @@ namespace Links.Data
         {
         }
 
+        public virtual DbSet<ApplicationUsers> ApplicationUsers { get; set; }
         public virtual DbSet<Link> Link { get; set; }
         public virtual DbSet<Log> Log { get; set; }
 
+//        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+//        {
+//            if (!optionsBuilder.IsConfigured)
+//            {
+//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
+//                optionsBuilder.UseSqlServer("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=Links");
+//            }
+//        }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<ApplicationUsers>(entity =>
+            {
+                entity.HasKey(e => new { e.ApplicationId, e.UserName });
+
+                entity.Property(e => e.UserName).HasMaxLength(100);
+            });
+
             modelBuilder.Entity<Link>(entity =>
             {
                 entity.Property(e => e.CreatedBy)

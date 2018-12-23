@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Links;
+﻿using Links.Data;
 using Links.Models;
-using Links.Data;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Linq;
 
 namespace Links.Controllers
 {
@@ -21,15 +16,16 @@ namespace Links.Controllers
 
         public LinksController(LinksContext context)
         {
-            _context = context;
+            _context = context;            
         }
 
         // GET: api/Links
         [HttpGet]
         public IActionResult Get()
         {
-            var links = _context.Link                
-                .Where(x => x.CreatedBy == User.Identity.Name)
+            //Get links created by users as well as applications assigned to them as well.            
+            var links = _context.Link
+                .Where(x => x.CreatedBy == User.Identity.Name || _context.ApplicationUsers.Where(a => a.UserName.Equals(User.Identity.Name)).Select(u => u.ApplicationId.ToString()).Contains(x.CreatedBy))
                 .OrderByDescending(x => x.Id)
                 .Select(x => new
                 {

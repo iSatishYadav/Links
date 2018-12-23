@@ -1,9 +1,9 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
-import { AuthenticationGuard, MsAdalAngular6Module } from 'microsoft-adal-angular6';
+import { MsalModule, MsalGuard, MsalInterceptor } from '@azure/msal-angular';
 
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
@@ -39,38 +39,35 @@ import { PieChartComponent } from './charts/pie-chart/pie-chart.component';
     RouterModule.forRoot([
       {
         path: '', component: ShortnerComponent, pathMatch: 'full',
-        canActivate: [AuthenticationGuard]
+        canActivate: [MsalGuard]
       },
       {
         path: 'links', component: LinksComponent,
-        canActivate: [AuthenticationGuard]
+        canActivate: [MsalGuard]
       },
       {
         path: 'credits', component: CreditsComponent,
-        canActivate: [AuthenticationGuard]
+        canActivate: [MsalGuard]
       },
       {
         path: 'log/:id', component: LogsComponent,
-        canActivate: [AuthenticationGuard]
+        canActivate: [MsalGuard]
       }
-      //,
-      //{
-      //  path: 'pie', component: PieChartComponent,
-      //  //canActivate: [AuthenticationGuard]
-      //}
     ]),
-    MsAdalAngular6Module.forRoot({
-      tenant: '222f3a7c-d45e-4818-9aa4-33d44420ec32',
-      //clientId: '69283aab-51de-414d-958b-22923a9c22d9',
-      clientId: '1023a461-77c7-4996-91e4-274400561485',
-      redirectUri: window.location.origin,
-      navigateToLoginRequestUrl: false,
-      cacheLocation: 'localStorage'
+    MsalModule.forRoot({
+      clientID: '1023a461-77c7-4996-91e4-274400561485',
+      authority: 'https://login.microsoftonline.com/222f3a7c-d45e-4818-9aa4-33d44420ec32',
+      consentScopes: ["api://1023a461-77c7-4996-91e4-274400561485/links.add"],
+      validateAuthority: true
     }),
     ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production }),
     ChartsModule
   ],
-  providers: [AuthenticationGuard],
+  providers: [{
+    provide: HTTP_INTERCEPTORS,
+    useClass: MsalInterceptor,
+    multi: true
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

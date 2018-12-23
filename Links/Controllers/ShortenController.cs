@@ -1,18 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Links.Data;
+﻿using Links.Data;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
+using System.Security.Claims;
 
 namespace Links.Controllers
 {
     [Route("s")]
     [ApiController]
-    [Authorize]
+    //[Authorize("links.add")]
     public class ShortenController : ControllerBase
     {
         private readonly IDataRepository _dataRepository;
@@ -23,10 +19,13 @@ namespace Links.Controllers
 
         //[Route("/s")]
         //[HttpPost("{longUrl}")]
+        //[Authorize("links.add")]
+        [Authorize]
         public IActionResult Post([FromBody] LongUrl longUrl)
         {
-            //string shortCode = GetShortCodeForUrl(longUrl?.Url);
-            string shortCode = ShortUrl.Encode(_dataRepository.SaveLink(longUrl?.Url, User?.Identity?.Name));            
+            //If User.Identity.Name is null, request is from and API Client, read azp claim instead.
+            var userName = User.Identity.Name ?? (User.Identity as ClaimsIdentity)?.Claims.FirstOrDefault(x => x.Type == "azp")?.Value;
+            string shortCode = ShortUrl.Encode(_dataRepository.SaveLink(longUrl?.Url, userName));
             var shortenedUrl = Url.Link("RedirectToLink", new { url = shortCode });
             return Created(shortenedUrl, shortenedUrl);
         }

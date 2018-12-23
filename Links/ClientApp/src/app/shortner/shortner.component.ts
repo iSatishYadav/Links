@@ -9,25 +9,25 @@ import { LinkService } from '../services/link/link.service';
 })
 export class ShortnerComponent implements OnInit {
 
-  private _linkService: LinkService;
-  constructor(linkService: LinkService) {
-    this._linkService = linkService;
-  }
-
-  ngOnInit() {
-  }
+  constructor(private linkService: LinkService) { }
+  model = new Link("");
   submitted = false;
 
+  ngOnInit() {
+
+  }
+
   onSubmit() {
-    this.submitted = true;    
-    this._linkService.postUrlForShortening(JSON.stringify(this.model))
-      .subscribe(result => {        
+    this.submitted = true;
+
+    this.linkService.postUrlForShortening(JSON.stringify(this.model))
+      .subscribe(result => {
         console.log("links", result);
         this.model = new Link("");
-        this.model.shortUrl = result;        
+        this.model.shortUrl = result;
+        this.submitted = false;
       }, error => console.error(error));
   }
-  model = new Link("");
 
   get diagnostic() {
     return JSON.stringify(this.model);

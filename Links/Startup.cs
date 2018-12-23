@@ -17,6 +17,7 @@ using Links.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System;
 using Microsoft.AspNetCore.Http;
+using Links.Authorizations;
 
 namespace Links
 {
@@ -47,17 +48,25 @@ namespace Links
             {
                 //tenantId
                 //options.Authority = "https://login.microsoftonline.com/222f3a7c-d45e-4818-9aa4-33d44420ec32";
-                options.Authority = $"{Configuration["AzureAd:Instance"]}/{Configuration["AzureAd:TenantId"]}";
+                options.Authority = $"{Configuration["AzureAd:Instance"]}/{Configuration["AzureAd:TenantId"]}/v2.0";
                 //clientId Azure Pers
                 //options.Audience = "69283aab-51de-414d-958b-22923a9c22d9";
                 // Azure Corp Converged
                 //options.Audience = "1023a461-77c7-4996-91e4-274400561485";
                 options.Audience = Configuration["AzureAd:ClientId"];
                 options.TokenValidationParameters.ValidateLifetime = true;
+                options.TokenValidationParameters.NameClaimType = "preferred_username";
                 options.TokenValidationParameters.ClockSkew = TimeSpan.Zero;
             });
 
-            services.AddAuthorization();
+            services.AddAuthorization(options =>
+            {
+                //options.AddPolicy("read:messages", policy => policy.Requirements.Add(new HasScopeRequirement("read:messages", domain)));
+            });
+
+            // register the scope authorization handler
+            services.AddSingleton<IAuthorizationPolicyProvider, AuthorizationPolicyProvider>();
+            services.AddSingleton<IAuthorizationHandler, HasScopeHandler>();
 
             services.AddMvc()
             .AddRazorPagesOptions(options =>
