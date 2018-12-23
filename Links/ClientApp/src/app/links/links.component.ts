@@ -1,6 +1,8 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { Link } from '../models/link';
 import { LinkService } from '../services/link/link.service';
+import { BroadcastService } from '@azure/msal-angular';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-links',
@@ -16,14 +18,45 @@ export class LinksComponent implements OnInit {
   public linkWiseCountLabels: string[];
   public linkWiseCounts: number[];
 
-  constructor(linkService: LinkService) {
+  private subscriptions: Subscription[];
+  constructor(linkService: LinkService, private broadcastService: BroadcastService) {
     this._linkService = linkService;
+    this.subscriptions = new Array<Subscription>();
     //linkService.getLinks()
     //  .subscribe(result => {
     //    this.links = result;
     //    this.linkWiseCountLabels = this.links.map(x => x.originalLink);        
     //    this.linkWiseCounts = this.links.map(x => x.clicks || 0);       
     //  }, error => console.error(error));
+    this.subscriptions.push(this.broadcastService.subscribe("msal:loginFailure", (payload) => {
+      console.log("loginFailure", payload);
+    }));
+
+    this.subscriptions.push(this.broadcastService.subscribe("msal:loginSuccess", (payload) => {
+      // do something here
+      console.log("loginSuccess", payload);
+    }));
+
+    this.subscriptions.push(this.broadcastService.subscribe("msal:acquireTokenSuccess", (payload) => {
+      // do something here
+      console.log("acquireTokenSuccess", payload);
+    }));
+
+    this.subscriptions.push(this.broadcastService.subscribe("msal:acquireTokenFailure", (payload) => {
+      // do something here
+      console.log("acquireTokenFailure", payload);
+    }));
+  }
+
+
+
+  ngOnDestroy() {
+    this.broadcastService.getMSALSubject().next(1);
+    this.subscriptions.forEach((value, index) => {
+      if (value) {
+        value.unsubscribe();
+      }
+    })
   }
 
   onSelect(link: Link): void {
