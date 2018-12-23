@@ -42,6 +42,17 @@ GO
 ALTER TABLE [dbo].[Log] ADD CONSTRAINT FK_Log_Link FOREIGN KEY (LinkId) REFERENCES dbo.Link(Id);
 GO
 
+CREATE TABLE [dbo].[ApplicationUsers](
+	[ApplicationId] [uniqueidentifier] NOT NULL,
+	[UserName] [nvarchar](100) NOT NULL,
+ CONSTRAINT [PK_ApplicationUsers] PRIMARY KEY CLUSTERED 
+(
+	[ApplicationId] ASC,
+	[UserName] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
 CREATE PROCEDURE [dbo].[UpdateStats] @Id int, @IpAddress NVARCHAR(50), @TimeStamp DATETIME2, @UserAgent NVARCHAR(MAX), @Browser NVARCHAR(100), @Os NVARCHAR(50), @Device NVARCHAR(100)
 AS			
 	UPDATE [dbo].Link SET Stats = JSON_MODIFY(JSON_MODIFY(Stats, '$.clicks', JSON_VALUE(Stats, '$.clicks') + 1), 'append $.log', JSON_MODIFY(JSON_MODIFY(JSON_MODIFY(JSON_MODIFY(JSON_MODIFY(JSON_MODIFY(JSON_MODIFY('{}', '$.id', CAST(NEWID() AS NVARCHAR(64))), '$.timestamp', CAST(@Timestamp AS NVARCHAR)), '$.ip', @IpAddress), '$.userAgent', @UserAgent), '$.browser', @Browser), '$.os', @Os), '$.device', @Device)) WHERE Id = @Id
