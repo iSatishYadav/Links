@@ -61,7 +61,7 @@ namespace Links.Data
 
         public Log[] GetLogsByLinkId(int linkId, string userName)
         {
-            return _context.Log.Where(x => x.Link.Id == linkId && x.Link.CreatedBy.ToUpper().Equals(userName.ToUpper())).ToArray();
+            return _context.Log.Where(x => x.Link.Id == linkId && x.Link.CreatedBy.ToUpper().Equals(userName.ToUpper())).OrderByDescending(x=> x.Timestamp).ToArray();
         }
     }
 }
