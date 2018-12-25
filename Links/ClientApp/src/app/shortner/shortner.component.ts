@@ -5,7 +5,7 @@ import { LinkService } from '../services/link/link.service';
 @Component({
   selector: 'app-shortner',
   templateUrl: './shortner.component.html',
-  styleUrls: ['./shortner.component.css']
+  styleUrls: ['./shortner.component.scss']
 })
 export class ShortnerComponent implements OnInit {
 

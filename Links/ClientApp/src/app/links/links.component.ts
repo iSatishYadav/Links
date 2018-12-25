@@ -5,7 +5,7 @@ import { LinkService } from '../services/link/link.service';
 @Component({
   selector: 'app-links',
   templateUrl: './links.component.html',
-  styleUrls: ['./links.component.css']
+  styleUrls: ['./links.component.scss']
 })
 
 export class LinksComponent implements OnInit {
