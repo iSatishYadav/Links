@@ -15,12 +15,19 @@
   <li><a routerLink="/">Home</a></li>
   <li><a routerLink="/links">Links</a></li>
 </ol>
-<div class="row" *ngIf="linkWiseCountLabels && linkWiseCounts">
+<!--<div class="row" *ngIf="linkWiseCountLabels && linkWiseCounts">
   <h3 class="text-center">Top 5 links' performance</h3>
   <app-pie-chart [chartLabels]='linkWiseCountLabels'
                  [chartData]='linkWiseCounts'>
 
   </app-pie-chart>
+</div>-->
+
+<div class="row" *ngIf="pieData">
+  <h3 class="text-center">Top {{linksSummaryCount}} links' performance</h3>
+  <ngx-charts-tree-map [results]="pieData">
+  </ngx-charts-tree-map>
+
 </div>
 <div class="row">
 
