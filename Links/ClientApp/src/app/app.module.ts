@@ -18,6 +18,7 @@ import { CreditsComponent } from './credits/credits.component';
 
 import { ChartsModule } from 'ng2-charts';
 import { PieChartComponent } from './charts/pie-chart/pie-chart.component';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 
 @NgModule({
@@ -61,7 +62,8 @@ import { PieChartComponent } from './charts/pie-chart/pie-chart.component';
       validateAuthority: true
     }),
     ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production }),
-    ChartsModule
+    ChartsModule,
+    NgxSpinnerModule
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,

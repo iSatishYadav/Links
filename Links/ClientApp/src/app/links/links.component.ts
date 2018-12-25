@@ -1,6 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { Link } from '../models/link';
 import { LinkService } from '../services/link/link.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-links',
@@ -15,7 +16,7 @@ export class LinksComponent implements OnInit {
   public linkWiseCountLabels: string[];
   public linkWiseCounts: number[];
 
-  constructor(linkService: LinkService) {
+  constructor(linkService: LinkService, private spinner: NgxSpinnerService) {
     this._linkService = linkService;
   }
 
@@ -33,12 +34,17 @@ export class LinksComponent implements OnInit {
   }
   ngOnInit() {
     //this._userName = this._authService.getName();
+    this.spinner.show();
+    this.getLinks();
+  }
+  getLinks() {
     this._linkService.getLinks()
       .subscribe(result => {
         this.links = result;
         let linksForGraph = this.links.sort((x, y) => y.clicks - x.clicks).slice(0, 5);
         this.linkWiseCountLabels = linksForGraph.map(x => x.originalLink);
         this.linkWiseCounts = linksForGraph.map(x => x.clicks || 0);
+        this.spinner.hide();
       }, error => console.error(error));
   }
 }

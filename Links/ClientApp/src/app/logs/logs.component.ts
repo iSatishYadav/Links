@@ -3,6 +3,7 @@ import { Log } from '../models/log';
 import { LogService } from '../services/log/log.service';
 import { ActivatedRoute } from '@angular/router';
 import '../extensions/array';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-logs',
@@ -20,10 +21,11 @@ export class LogsComponent implements OnInit {
   public browserLabels: string[] = new Array<string>();
 
 
-  constructor(private _logService: LogService, private route: ActivatedRoute) { }
+  constructor(private _logService: LogService, private route: ActivatedRoute, private spinner: NgxSpinnerService) { }
 
   ngOnInit() {
     const id = +this.route.snapshot.paramMap.get('id');
+    this.spinner.show();
     this._logService.getLogs(id)
       .subscribe(logResult => {
         this.logs = logResult;
@@ -43,6 +45,7 @@ export class LogsComponent implements OnInit {
           this.browserLabels.push(k);
           return k;
         });
+        this.spinner.hide();
       }, error => console.error(error));
   }
 
