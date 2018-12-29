@@ -13,8 +13,6 @@ export class LinksComponent implements OnInit {
   public links: Link[];
   private _linkService: LinkService;
   selectedLink: Link;
-  public linkWiseCountLabels: string[];
-  public linkWiseCounts: number[];
   public pieData = [{ 'name': 'init', 'value': 0 }];
 
   private linksSummaryCount: number = 10;
@@ -45,11 +43,9 @@ export class LinksComponent implements OnInit {
       .subscribe(result => {
         this.links = result;
         let linksForGraph = this.links.sort((x, y) => y.clicks - x.clicks).slice(0, this.linksSummaryCount);
-        this.pieData = linksForGraph.map((value, index) => {
+        this.pieData = linksForGraph.map((value) => {
           return { name: value.originalLink, value: value.clicks }
         });
-        //this.linkWiseCountLabels = linksForGraph.map(x => x.originalLink);
-        //this.linkWiseCounts = linksForGraph.map(x => x.clicks || 0);
         this.spinner.hide();
       }, error => console.error(error));
   }

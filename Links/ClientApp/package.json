@@ -32,7 +32,6 @@
     "bootstrap": "^3.3.7",
     "core-js": "^2.5.7",
     "microsoft-adal-angular6": "^1.0.0",
-    "ng2-charts": "^1.6.0",
     "ngx-spinner": "6.1.2",
     "npm": "^6.1.0",
     "rxjs": "^6.2.1",

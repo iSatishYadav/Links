@@ -16,20 +16,24 @@
   <li><a routerLink="/links">Links</a></li>
 </ol>
 
-<div class="row" *ngIf="osData">
-  <h3 class="text-center">Clicks by Operating Systems</h3>
-  <app-pie-chart [chartData]='osData'
-                 [chartLabels]='osLabels'>
+<div class="row">
+  <div class="container-fluid">
+    <div class="col-lg-6" *ngIf="osPieData">
+      <h3 class="text-center">Clicks by Operating Systems</h3>
+      <ngx-charts-pie-chart [results]="osPieData"
+                            [labels]="true"
+                            [legend]="false">
+      </ngx-charts-pie-chart>
+    </div>
+    <div class="col-lg-6" *ngIf="browserPieData">
+      <h3 class="text-center">Clicks by Browsers</h3>
+      <ngx-charts-pie-chart [results]="browserPieData"
+                            [labels]="true"
+                            [legend]="false">
+      </ngx-charts-pie-chart>
+    </div>
+  </div>
 
-  </app-pie-chart>
-</div>
-
-<div class="row" *ngIf="browserData">
-  <h3 class="text-center">Clicks by Browsers</h3>
-  <app-pie-chart [chartData]='browserData'
-                 [chartLabels]='browserLabels'>
-
-  </app-pie-chart>
 </div>
 
 <div class="table-responsive">

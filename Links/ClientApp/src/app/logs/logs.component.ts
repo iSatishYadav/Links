@@ -14,39 +14,43 @@ import { NgxSpinnerService } from 'ngx-spinner';
 export class LogsComponent implements OnInit {
   public logs: Log[];
 
-  public osData: number[] = new Array<number>();
-  public osLabels: string[] = new Array<string>();
-
-  public browserData: number[] = new Array<number>();
-  public browserLabels: string[] = new Array<string>();
-
+  public osPieData: any[];
+  public browserPieData: any[];
 
   constructor(private _logService: LogService, private route: ActivatedRoute, private spinner: NgxSpinnerService) { }
 
   ngOnInit() {
-    const id = +this.route.snapshot.paramMap.get('id');
     this.spinner.show();
+    const id = +this.route.snapshot.paramMap.get('id');
     this._logService.getLogs(id)
       .subscribe(logResult => {
         this.logs = logResult;
 
-        let osSummary: any = this.logs.groupByCount('os');
+        this.osPieData = this.getOsSummary(this.logs);
+        this.browserPieData = this.getBrowserSummary(this.logs);
 
-        Object.keys(osSummary).map(k => {
-          this.osData.push(osSummary[k]);
-          this.osLabels.push(k);
-          return k;
-        });
-
-        let browserSummary = this.logs.groupByCount('browser');
-
-        Object.keys(browserSummary).map(k => {
-          this.browserData.push(browserSummary[k]);
-          this.browserLabels.push(k);
-          return k;
-        });
         this.spinner.hide();
       }, error => console.error(error));
   }
 
+
+  private getBrowserSummary(logs: Log[]) {
+    const browsers = logs.map(x => ({ browser: x.browser.split(' ', 1)[0] })).groupByCount('browser');
+    const browserWiseCount = [];
+    Object.keys(browsers).map(k => {
+      browserWiseCount.push({ name: k, value: browsers[k] });
+      return k;
+    });
+    return browserWiseCount;
+  }
+
+  private getOsSummary(logs: Log[]) {
+    const oss: any = logs.map(x => ({ os: x.os.split(' ', 1)[0] })).groupByCount('os');
+    const osWiseCount = [];
+    Object.keys(oss).map(k => {
+      osWiseCount.push({ name: k, value: oss[k] });
+      return k;
+    });
+    return osWiseCount;
+  }
 }
