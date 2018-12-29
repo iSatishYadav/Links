@@ -16,7 +16,6 @@ import { LogsComponent } from './logs/logs.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { CreditsComponent } from './credits/credits.component';
-import { PieChartComponent } from './charts/pie-chart/pie-chart.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 
@@ -30,8 +29,7 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
     LinksComponent,
     ShortnerComponent,
     LogsComponent,
-    CreditsComponent,
-    PieChartComponent
+    CreditsComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
