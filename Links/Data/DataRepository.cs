@@ -1,11 +1,8 @@
 ﻿using Links.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Links.Data
 {
@@ -61,7 +58,7 @@ namespace Links.Data
 
         public Log[] GetLogsByLinkId(int linkId, string userName)
         {
-            return _context.Log.Where(x => x.Link.Id == linkId && x.Link.CreatedBy.ToUpper().Equals(userName.ToUpper())).OrderByDescending(x=> x.Timestamp).ToArray();
+            return _context.Log.Where(x => x.Link.Id == linkId && (x.Link.CreatedBy.ToUpper().Equals(userName.ToUpper()) || _context.ApplicationUsers.Where(a => a.UserName.Equals(userName)).Select(u => u.ApplicationId.ToString()).Contains(x.Link.CreatedBy))).OrderByDescending(x => x.Timestamp).ToArray();
         }
     }
 }

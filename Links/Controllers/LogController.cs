@@ -23,7 +23,7 @@ namespace Links.Controllers
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            var logs = _dataRepository.GetLogsByLinkId(id, User?.Identity?.Name ?? "satishkyadav@bharatpetroleum.in");
+            var logs = _dataRepository.GetLogsByLinkId(id, User?.Identity?.Name ?? "satishkyadav@bharatpetroleum.in");            
 
             return Ok(logs.Select(
                 x => new

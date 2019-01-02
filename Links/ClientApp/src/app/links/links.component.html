@@ -24,13 +24,11 @@
 </div>-->
 
 <div class="row" *ngIf="pieData">
-  <h3 class="text-center">Top {{linksSummaryCount}} links' performance</h3>
+  <h3 class="text-center">Top {{linksSummaryCount}} links</h3>
   <ngx-charts-tree-map [results]="pieData">
   </ngx-charts-tree-map>
-
 </div>
 <div class="row">
-
   <div class="table-responsive">
     <table class="table table-hover" *ngIf="links">
       <thead>
@@ -51,3 +49,23 @@
     </table>
   </div>
 </div>
+
+<!--<div class="row" *ngIf="links">
+  <div class="col-sm-6 col-md-4" *ngFor="let link of links">
+    <div class="thumbnail">
+      <a routerLink="/log/{{link.id}}">
+       
+        <img src="https://via.placeholder.com/50x50?text={{link.clicks}}" />
+      </a>
+      <div class="caption">
+        <h4><a href="{{link.shortLink}}" target="_blank" (click)="shortLinkClicked(link)">{{link.shortLink}}</a></h4>
+        <p style="text-wrap:normal">{{link.originalLink}}</p>
+        <p>
+          <a routerLink="/log/{{link.id}}" class="btn btn-primary">
+            Clicks <span class="badge">{{link.clicks}}</span>
+          </a>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>-->

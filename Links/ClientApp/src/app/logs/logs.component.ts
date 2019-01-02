@@ -16,7 +16,8 @@ export class LogsComponent implements OnInit {
 
   public osPieData: any[];
   public browserPieData: any[];
-
+  public timeSeries: any;
+  public chartTitle: string = 'Clicks';
   constructor(private _logService: LogService, private route: ActivatedRoute, private spinner: NgxSpinnerService) { }
 
   ngOnInit() {
@@ -28,11 +29,23 @@ export class LogsComponent implements OnInit {
 
         this.osPieData = this.getOsSummary(this.logs);
         this.browserPieData = this.getBrowserSummary(this.logs);
+        this.timeSeries = this.getTimeSeries(this.logs);
 
         this.spinner.hide();
       }, error => console.error(error));
   }
 
+
+  private getTimeSeries(logs: Log[]): any {
+    //console.log(logs.map(x => new Date(x.timestamp)));
+    return ({
+      name: "Clicks",
+      series: logs.map(x => ({
+        name: new Date(x.timestamp).getDay(),
+        value: 1
+      }))
+    });
+  }
 
   private getBrowserSummary(logs: Log[]) {
     const browsers = logs.map(x => ({ browser: x.browser.split(' ', 1)[0] })).groupByCount('browser');

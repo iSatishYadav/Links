@@ -1,63 +1,100 @@
-<div class="page-header">
-  <h1>
-    Logs
-    <small>
-      <a routerLink="/links">
-        Go to my links
-      </a>
-    </small>
-  </h1>
-</div>
-<p *ngIf="!logs">
-  Please wait while we fetch your logs...
-</p>
-<ol class="breadcrumb">
-  <li><a routerLink="/">Home</a></li>
-  <li><a routerLink="/links">Links</a></li>
-</ol>
+<div class="container-fluid">
+  <div class="page-header">
+    <h1>
+      Logs
+      <small>
+        <a routerLink="/links">
+          Go to my links
+        </a>
+      </small>
+    </h1>
+  </div>
+  <p *ngIf="!logs">
+    Please wait while we fetch your logs...
+  </p>
+  <ol class="breadcrumb">
+    <li><a routerLink="/">Home</a></li>
+    <li><a routerLink="/links">Links</a></li>
+  </ol>
 
-<div class="row">
-  <div class="container-fluid">
-    <div class="col-lg-6" *ngIf="osPieData">
-      <h3 class="text-center">Clicks by Operating Systems</h3>
-      <ngx-charts-pie-chart [results]="osPieData"
-                            [labels]="true"
-                            [legend]="false">
-      </ngx-charts-pie-chart>
+
+
+  <div class="panel panel-default" *ngIf="osPieData">
+    <div class="panel-heading">
+      <h4 class="panel-title">Clicks by Operating Systems</h4>
     </div>
-    <div class="col-lg-6" *ngIf="browserPieData">
-      <h3 class="text-center">Clicks by Browsers</h3>
-      <ngx-charts-pie-chart [results]="browserPieData"
-                            [labels]="true"
-                            [legend]="false">
-      </ngx-charts-pie-chart>
+    <div class="panel-body">
+      <ngx-charts-advanced-pie-chart [results]="osPieData"
+                                     [label]='chartTitle'>
+      </ngx-charts-advanced-pie-chart>
     </div>
   </div>
 
-</div>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">Clicks by Browsers</h4>
+    </div>
+    <div class="panel-body" *ngIf="browserPieData">
+      <ngx-charts-advanced-pie-chart [results]="browserPieData"
+                                     [label]='chartTitle'>
+      </ngx-charts-advanced-pie-chart>
+    </div>
+  </div>
 
-<div class="table-responsive">
-  <table class="table table-hover" *ngIf="logs">
-    <thead>
-      <tr>
-        <th> IP </th>
-        <!--<th> User Agent </th>-->
-        <th> Timestamp </th>
-        <th> Browser </th>
-        <th> OS </th>
-        <th> Device </th>
+  <div *ngIf="timeSeries">
+    <!--<ngx-charts-line-chart [results]="timeSeries"
+                           [xAxisLabel]="Date"
+                           [yAxisLabel]="Clicks"
+                           [showXAxisLabel]="true"
+                           [showYAxisLabel]="true">
 
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let log of logs">
-        <td>{{log.ipAddress}}</td>
-        <!--<td>{{log.userAgent}}</td>-->
-        <td>{{log.timestamp | date}}</td>
-        <td>{{log.browser}}</td>
-        <td>{{log.os}}</td>
-        <td>{{log.device}}</td>
-      </tr>
-    </tbody>
-  </table>
+    </ngx-charts-line-chart>-->
+    <!--This is a timeseries.-->
+  </div>
+
+
+  <br />
+  <div>
+    <h3>Raw logs</h3>
+    <div class="table-responsive">
+      <table class="table table-hover" *ngIf="logs">
+        <thead>
+          <tr>
+            <th> IP </th>
+            <!--<th> User Agent </th>-->
+            <th> Timestamp </th>
+            <th> Browser </th>
+            <th> OS </th>
+            <th> Device </th>
+
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let log of logs">
+            <td>{{log.ipAddress}}</td>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <!--<td>{{log.userAgent}}</td>-->
+            <td>{{log.timestamp | date}}</td>
+            <td>{{log.browser}}</td>
+            <td>{{log.os}}</td>
+            <td>{{log.device}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 </div>
