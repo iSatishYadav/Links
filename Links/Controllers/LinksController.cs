@@ -16,7 +16,7 @@ namespace Links.Controllers
 
         public LinksController(LinksContext context)
         {
-            _context = context;            
+            _context = context;
         }
 
         // GET: api/Links
@@ -27,6 +27,7 @@ namespace Links.Controllers
             var links = _context.Link
                 .Where(x => x.CreatedBy == User.Identity.Name || _context.ApplicationUsers.Where(a => a.UserName.Equals(User.Identity.Name)).Select(u => u.ApplicationId.ToString()).Contains(x.CreatedBy))
                 .OrderByDescending(x => x.Id)
+                .Take(100)
                 .Select(x => new
                 {
                     OriginalLink = x.OriginalLink,
