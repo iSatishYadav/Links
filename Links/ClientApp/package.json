@@ -29,7 +29,7 @@
     "@nguniversal/module-map-ngfactory-loader": "^5.0.0",
     "@swimlane/ngx-charts": "10.0.0",
     "aspnet-prerendering": "^3.0.1",
-    "bootstrap": "^3.3.7",
+    "bootstrap": "^5.0.0",
     "core-js": "^2.5.7",
     "microsoft-adal-angular6": "^1.0.0",
     "ngx-spinner": "6.1.2",
